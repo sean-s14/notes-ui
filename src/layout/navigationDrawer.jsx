@@ -210,12 +210,12 @@ export default function NavigationDrawer2(props) {
         },
         {
             name: "Notes",
-            path: "projects",
+            path: "notes",
             icon: <Description />
         },
         {
             name: "Tasks",
-            path: "articles",
+            path: "tasks",
             icon: <ListIcon />
         },
     ]

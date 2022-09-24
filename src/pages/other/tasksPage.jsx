@@ -1,26 +1,25 @@
 
-
-// import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 
 import { PageContainer } from "layout/pageContainer";
-// import { useAxios } from 'hooks/exports';
-// import { useAuthUpdate } from 'contexts/exports';
+import { useAxios } from 'hooks/exports';
+import { useAuthUpdate } from 'contexts/exports';
 
 
-const HomePage = (props) => {
+const TasksPage = (props) => {
 
     // Theme
     const theme = useTheme();
 	const styles = stylesheet(theme);
 
     // Auth
-    // const updateAuthData = useAuthUpdate();
-    // const api = useAxios();
+    const updateAuthData = useAuthUpdate();
+    const api = useAxios();
 
     return (
         <PageContainer style={styles.PageContainer}>
-            <h1 style={styles.H1}>Home</h1>
+            <h1>Tasks</h1>
         </PageContainer>
     )
 }
@@ -31,9 +30,6 @@ const stylesheet = (theme) => ({
         flexDirection: 'column',
         alignItems: 'center',
     },
-    H1: {
-        margin: 0
-    }
 })
 
-export default HomePage;
+export default TasksPage;

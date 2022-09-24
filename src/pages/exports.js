@@ -1,6 +1,6 @@
 import HomePage from "./homePage";
-import { ProjectsPage } from "./other/projectsPage";
-import { ArticlesPage } from "./other/articlesPage";
+import NotesPage from "./other/notesPage";
+import TasksPage from "./other/tasksPage";
 
 // Site
 import AboutPage from "./site/aboutPage";
@@ -17,8 +17,8 @@ import PasswordResetPage from "./auth/PasswordReset";
 
 export {
     HomePage,
-    ProjectsPage,
-    ArticlesPage,
+    NotesPage,
+    TasksPage,
 
     // Site
     AboutPage,

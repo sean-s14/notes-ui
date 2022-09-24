@@ -3,8 +3,8 @@ import './App.css';
 import { Routes, Route, Navigate } from "react-router-dom";
 import {
   HomePage,
-  ProjectsPage,
-  ArticlesPage,
+  NotesPage,
+  TasksPage,
 
   // Site
   AboutPage,
@@ -47,8 +47,8 @@ export default function App() {
       <NavigationDrawer />
       <Routes>
         <Route path="/" element={<HomePage />}/>
-        <Route path="projects" element={<ProjectsPage />}/>
-        <Route path="articles" element={<ArticlesPage />}/>
+        <Route path="notes" element={<NotesPage />}/>
+        <Route path="tasks" element={<TasksPage />}/>
         <Route path="about" element={<AboutPage />}/>
         <Route path="policies" element={<PoliciesPage />}/>
         <Route path="contact" element={<ContactPage />}/>
