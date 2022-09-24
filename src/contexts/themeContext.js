@@ -3,6 +3,8 @@ import '../App.css';
 import { createContext, useState, useMemo } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useVariables } from 'hooks/exports';
+import darkTheme from 'theme/darkTheme';
+import lightTheme from 'theme/lightTheme';
 
 const ThemeContext = createContext({ toggleTheme: () => { } });
 
@@ -23,11 +25,15 @@ const ToggleTheme = (props) => {
 
     const theme = useMemo(
         () =>
-            createTheme({
-                palette: { mode: mode },
-                typography: { fontFamily: "Nunito, Roboto, Arial" },
-                mixins: { toolbar: { minHeight: vars.appBarHeight }}
-            }),
+            createTheme(
+                Object.assign( 
+                    {
+                        typography: { fontFamily: "Nunito, Roboto, Arial" },
+                        mixins: { toolbar: { minHeight: vars.appBarHeight }}
+                    }, 
+                    mode === 'dark' ? darkTheme : lightTheme
+                    )
+            ),
         [mode, vars],
     );
 

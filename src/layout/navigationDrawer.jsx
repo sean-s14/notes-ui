@@ -33,8 +33,10 @@ import {
     Home,
     QuestionMark,
     Feed,
-    Article,
-    Devices,
+    // Article,
+    List as ListIcon,
+    // Devices, 
+    Description,
     Menu,
     ChevronLeft,
     ChevronRight,
@@ -59,6 +61,8 @@ import { useVariables } from 'hooks/exports';
 
 
 const openedMixin = (theme, vars) => ({
+    backgroundColor:  theme.palette.mode === 'dark' && '#333',
+    // backgroundColor:  theme.palette.mode === 'dark' && '#333',
     width: vars.drawerWidth,
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
@@ -68,6 +72,8 @@ const openedMixin = (theme, vars) => ({
 });
 
 const closedMixin = (theme, vars) => ({
+    // backgroundColor:  theme.palette.mode === 'dark' && '#311b92',
+    backgroundColor:  theme.palette.mode === 'dark' && '#333',
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -203,14 +209,14 @@ export default function NavigationDrawer2(props) {
             icon: <Home />
         },
         {
-            name: "Projects",
+            name: "Notes",
             path: "projects",
-            icon: <Devices />
+            icon: <Description />
         },
         {
-            name: "Articles",
+            name: "Tasks",
             path: "articles",
-            icon: <Article />
+            icon: <ListIcon />
         },
     ]
 
@@ -307,7 +313,7 @@ export default function NavigationDrawer2(props) {
                         <Menu fontSize={"large"} />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        React Template
+                        Notes
                     </Typography>
                     <IconButton     
                         aria-label={"theme"}
