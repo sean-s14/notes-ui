@@ -1,4 +1,4 @@
-import { HomePage } from "./homePage";
+import HomePage from "./homePage";
 import { ProjectsPage } from "./other/projectsPage";
 import { ArticlesPage } from "./other/articlesPage";
 

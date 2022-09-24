@@ -6,7 +6,7 @@ const useVariables = () => {
 
     return {
         drawerWidth: 200,
-        drawerWidthClosed: `calc(${theme.spacing(7)} + 1px)`,
+        drawerWidthClosed: `calc(${theme.spacing(8)} + 1px)`,
         appBarHeight: 80,
         mobile: '600px',
     }
