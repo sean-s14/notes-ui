@@ -37,6 +37,7 @@ import {
     List as ListIcon,
     // Devices, 
     Description,
+    NoteAdd,
     Menu,
     ChevronLeft,
     ChevronRight,
@@ -212,6 +213,11 @@ export default function NavigationDrawer2(props) {
             name: "Notes",
             path: "notes",
             icon: <Description />
+        },
+        {
+            name: "Add Note",
+            path: "notes/create",
+            icon: <NoteAdd />
         },
         {
             name: "Tasks",

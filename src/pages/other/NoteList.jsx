@@ -7,7 +7,7 @@ import { useAxios } from 'hooks/exports';
 import { useAuthUpdate } from 'contexts/exports';
 
 
-const NotesPage = (props) => {
+const NoteListPage = (props) => {
 
     // Theme
     const theme = useTheme();
@@ -19,7 +19,7 @@ const NotesPage = (props) => {
 
     return (
         <PageContainer style={styles.PageContainer}>
-            <h1>Notes</h1>
+            <h1>All Notes</h1>
         </PageContainer>
     )
 }
@@ -32,4 +32,4 @@ const stylesheet = (theme) => ({
     },
 })
 
-export default NotesPage;
+export default NoteListPage;

@@ -1,5 +1,7 @@
 import HomePage from "./homePage";
-import NotesPage from "./other/notesPage";
+import CreateNotePage from "./other/CreateNote";
+import NoteDetailPage from "./other/NoteDetail";
+import NoteListPage from "./other/NoteList";
 import TasksPage from "./other/tasksPage";
 
 // Site
@@ -17,7 +19,9 @@ import PasswordResetPage from "./auth/PasswordReset";
 
 export {
     HomePage,
-    NotesPage,
+    CreateNotePage,
+    NoteDetailPage,
+    NoteListPage,
     TasksPage,
 
     // Site

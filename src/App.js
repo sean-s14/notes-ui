@@ -3,8 +3,12 @@ import './App.css';
 import { Routes, Route, Navigate } from "react-router-dom";
 import {
   HomePage,
-  NotesPage,
   TasksPage,
+  
+  // Notes
+  CreateNotePage,
+  NoteDetailPage,
+  NoteListPage,
 
   // Site
   AboutPage,
@@ -47,11 +51,16 @@ export default function App() {
       <NavigationDrawer />
       <Routes>
         <Route path="/" element={<HomePage />}/>
-        <Route path="notes" element={<NotesPage />}/>
         <Route path="tasks" element={<TasksPage />}/>
         <Route path="about" element={<AboutPage />}/>
         <Route path="policies" element={<PoliciesPage />}/>
         <Route path="contact" element={<ContactPage />}/>
+        
+        <Route path="notes">
+          <Route path="" element={<NoteListPage />}/>
+          <Route path="create" element={<CreateNotePage />}/>
+          <Route path=":slug" element={<NoteDetailPage />}/>
+        </Route>
 
         { !loggedIn
           ? <>
