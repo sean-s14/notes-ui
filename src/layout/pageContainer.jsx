@@ -21,7 +21,8 @@ const PageContainer = ({children, style}) => {
                 marginTop: vars.appBarHeight + 'px',
                 marginLeft: mobile ? vars.drawerWidthClosed : '0px',
                 p: "10px",
-                bgcolor: theme.palette.mode === 'dark' ? '#0E0B16' : '#E7DFDD',
+                // bgcolor: theme.palette.mode === 'dark' ? '#0E0B16' : '#E7DFDD',
+                bgcolor: theme.palette.mode === 'dark' ? 'rgb(10, 7, 18)' : '#E7DFDD',
                 minHeight: `calc(100vh - ${vars.appBarHeight}px)`,
                 maxWidth: mobile ? `calc(100vw - ${vars.drawerWidthClosed})` : 'auto',
                 ...style
