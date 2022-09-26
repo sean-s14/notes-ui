@@ -62,7 +62,8 @@ import { useVariables } from 'hooks/exports';
 
 
 const openedMixin = (theme, vars) => ({
-    backgroundColor:  theme.palette.mode === 'dark' && '#333',
+    // backgroundColor:  theme.palette.mode === 'dark' && '#333',
+    backgroundColor:  theme.palette.background.paper,
     // backgroundColor:  theme.palette.mode === 'dark' && '#333',
     width: vars.drawerWidth,
     transition: theme.transitions.create('width', {
@@ -74,7 +75,8 @@ const openedMixin = (theme, vars) => ({
 
 const closedMixin = (theme, vars) => ({
     // backgroundColor:  theme.palette.mode === 'dark' && '#311b92',
-    backgroundColor:  theme.palette.mode === 'dark' && '#333',
+    backgroundColor:  theme.palette.background.paper,
+    // backgroundColor:  theme.palette.mode === 'dark' && '#333',
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,

@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
 import {
     FormControl,
     TextField,
@@ -11,7 +12,7 @@ import ReactQuill from 'react-quill';
 import 'static/css/quill.snow.css';
 
 import { PageContainer } from "layout/pageContainer";
-// import { useAxios } from 'hooks/exports';
+import { useAxios } from 'hooks/exports';
 // import { useAuthUpdate } from 'contexts/exports';
 
 
@@ -23,7 +24,8 @@ const CreateNotePage = (props) => {
 
     // Auth
     // const updateAuthData = useAuthUpdate();
-    // const api = useAxios();
+    const api = useAxios();
+    const navigate = useNavigate();
 
     const [form, setForm] = useState({});
 
@@ -39,6 +41,16 @@ const CreateNotePage = (props) => {
     useEffect( () => {
         console.log("Form:", form);
     }, [form])
+
+    const save = () => {
+        api.post('notes/create/', form)
+            .then( res => {
+                navigate("/notes", { replace: true });
+            })
+            .catch( err => {
+
+            })
+    }
 
     return (
         <PageContainer style={styles.PageContainer}>
@@ -65,6 +77,7 @@ const CreateNotePage = (props) => {
                 <Button 
                     variant="outlined" 
                     sx={styles.SaveBtn}
+                    onClick={ save }
                 >
                     Save
                 </Button>
