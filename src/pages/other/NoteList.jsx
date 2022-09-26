@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
 import { useTheme } from '@mui/material/styles';
 import { Clear } from '@mui/icons-material';
 import {
@@ -13,6 +12,7 @@ import {
     DialogActions,
     DialogTitle,
 } from '@mui/material';
+import { Link } from "react-router-dom";
 
 import { PageContainer } from "layout/pageContainer";
 import { useAxios } from 'hooks/exports';
@@ -32,8 +32,8 @@ const NoteListPage = (props) => {
 
     const [notes, setNotes] = useState([]);
     const [note, setNote] = useState([]);
+    
     const [delOpen, setDelOpen] = useState(false);
-
     const handleDelOpen = () => setDelOpen(true);
     const handleDelClose = () => setDelOpen(false);
 

@@ -2,7 +2,7 @@ import HomePage from "./homePage";
 import CreateNotePage from "./other/CreateNote";
 import NoteDetailPage from "./other/NoteDetail";
 import NoteListPage from "./other/NoteList";
-import TasksPage from "./other/tasksPage";
+import TasksPage from "./other/TasksPage";
 
 // Site
 import AboutPage from "./site/aboutPage";
