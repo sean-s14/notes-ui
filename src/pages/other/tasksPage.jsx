@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Clear, Edit, Add } from '@mui/icons-material';
@@ -15,7 +14,7 @@ import {
 import parse from 'html-react-parser';
 
 import { PageContainer } from "layout/pageContainer";
-import { useAxios } from 'hooks/exports';
+import { useAxios, useAuthData } from 'hooks/exports';
 
 
 const TasksPage = (props) => {
@@ -26,12 +25,30 @@ const TasksPage = (props) => {
 
     // Auth
     const api = useAxios();
+    const { isLoggedIn } = useAuthData();
 
     const [tasks, setTasks] = useState([]);
     const [newTask, setNewTask] = useState({});
 
     const toggleComplete = (val, id) => {
         let completed = val.target.checked;
+
+        if (!isLoggedIn) {
+            let localTasksRaw = localStorage.getItem('tasks');
+            if (localTasksRaw !== null) {
+                let localTasks = JSON.parse(localTasksRaw);
+                localTasks.map( task => {
+                    if (task.id === id) {
+                        task.completed = completed;
+                    }
+                    return task
+                })
+                localStorage.setItem('tasks', JSON.stringify(localTasks));
+                getTasks();
+            }
+            return
+        }
+
         api.patch(`tasks/edit/${id}/`, {completed: completed})
             .then( res => {
             })
@@ -48,7 +65,26 @@ const TasksPage = (props) => {
     }
 
     const editTask = (id) => {
-        setTasks( tasks => tasks.map( (task, index) => {
+
+        if (!isLoggedIn) {
+            let localTasksRaw = localStorage.getItem('tasks');
+
+            if (localTasksRaw !== null) {
+                let localTasks = JSON.parse(localTasksRaw);
+                localTasks.map( task => {
+                    if (task.id === id) {
+                        task.editable = !task.editable;
+                    }
+                    return task;
+                })
+                localStorage.setItem('tasks', JSON.stringify(localTasks));
+                getTasks();
+            }
+
+            return
+        }
+
+        setTasks( tasks => tasks.map( (task) => {
             if (task.id === id) {
                 task.editable = !task.editable;
             }
@@ -57,6 +93,24 @@ const TasksPage = (props) => {
     }
 
     const updateTask = (text, id) => {
+
+        if (!isLoggedIn) {
+            let localTasksRaw = localStorage.getItem('tasks');
+
+            if (localTasksRaw !== null) {
+                let localTasks = JSON.parse(localTasksRaw);
+                localTasks.map( task => {
+                    if (task.id === id) {
+                        task.text = text;
+                    }
+                    return task
+                })
+                localStorage.setItem('tasks', JSON.stringify(localTasks));
+            }
+
+            return
+        }
+
         api.patch(`tasks/edit/${id}/`, {text: text})
             .then( res => {
                 setTasks( tasks => tasks.map( task => {
@@ -66,22 +120,62 @@ const TasksPage = (props) => {
                     return task
                 }))
             })
-            .catch( err => {
-
-            })
+            .catch( err => {})
     }
 
     const deleteTask = (id) => {
-        api.delete(`tasks/delete/${id}/`)
-            .then( res => {
-                getTasks();
-            })
-            .catch( err => {
 
-            })
+        if (!isLoggedIn) {
+            let localTasksRaw = localStorage.getItem('tasks');
+            if (localTasksRaw !== null) {
+                let localTasks = JSON.parse(localTasksRaw);
+                localTasks = localTasks.filter( task => task.id !== id );
+                localStorage.setItem('tasks', JSON.stringify(localTasks));
+                if (localTasks.length === 0) {
+                    localStorage.removeItem('tasks');
+                    setTasks([]);
+                } 
+            }
+            getTasks();
+            return
+        }
+
+        api.delete(`tasks/delete/${id}/`)
+        .then( res => {
+            getTasks();
+        })
+        .catch( err => {
+            
+        })
     }
 
     const getTasks = () => {
+
+        if (!isLoggedIn) {
+            let localTasksRaw = localStorage.getItem('tasks');
+            if (localTasksRaw !== null) {
+                let localTasks = JSON.parse(localTasksRaw);
+                setTasks(localTasks.reverse());
+            }
+            return
+        }
+        
+        let localTasksRaw = localStorage.getItem('tasks');
+
+        if (localTasksRaw !== null) {
+            let localTasks = JSON.parse(localTasksRaw);
+            if (localTasks.length > 0) {
+                localTasks.sort( (a, b) => a.id > b.id ? -1 : 1 );
+                let newlocalTasks = localTasks.map( task => ({text: task.text, completed: task.completed}) );
+                newlocalTasks.forEach( task => {
+                    api.post('tasks/create/', task)
+                        .then( res => {})
+                        .catch( err => {})
+                });
+                localStorage.removeItem('tasks');
+            }
+        }
+
         api.get('tasks/')
             .then( res => {
                 setTasks(res?.data);
@@ -92,6 +186,23 @@ const TasksPage = (props) => {
     }
 
     const addTask = () => {
+        setNewTask('');
+
+        if (!isLoggedIn) {
+            let localTasksRaw = localStorage.getItem('tasks');
+            if (localTasksRaw === null) {
+                localStorage.setItem('tasks', JSON.stringify([{...newTask, id: 1, completed: false}]));
+            } else {
+                let localTasks = JSON.parse(localTasksRaw);
+                localTasks.sort( (a, b) => a.id > b.id ? -1 : 1 );
+                localTasks.push({...newTask, id: localTasks[0].id + 1, completed: false});
+                localTasks.sort( (a, b) => a.id > b.id ? -1 : 1 );
+                localStorage.setItem('tasks', JSON.stringify(localTasks));
+            }
+            getTasks();
+            return
+        }
+
         api.post('tasks/create/', newTask)
             .then( res => {
                 setNewTask({});
@@ -102,9 +213,10 @@ const TasksPage = (props) => {
             })
     }
 
+    useEffect( () => {
+        getTasks()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect( () => getTasks, [])
-
+    }, [isLoggedIn]);
 
     return (
         <PageContainer style={styles.PageContainer}>
