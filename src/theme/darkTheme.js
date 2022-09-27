@@ -22,7 +22,7 @@ const darkTheme = {
         MuiInputLabel: {
             styleOverrides: {
                 root: ({ ownerState }) => {
-                    console.log("Owner State:", ownerState);
+                    // console.log("Owner State:", ownerState);
                     return {
                         '&.Mui-focused': {
                             color: deepPurple[300],

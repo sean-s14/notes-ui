@@ -74,7 +74,7 @@ const useAxios = () => {
 
     axiosInstance.interceptors.response.use( async res => {
         console.log('Interceptor Response :', res);
-        console.log('Interceptor Response Data :', res?.data);
+        // console.log('Interceptor Response Data :', res?.data);
         if (newTokens) {
             console.log('Updating Auth...');
             res = {...res, updatingAuth: true}
@@ -86,7 +86,7 @@ const useAxios = () => {
     }, err => {
         console.log('Interceptor Error :', err);
         console.log('Interceptor Error Response :', err?.response);
-        console.log('Interceptor Error Response Data :', err?.response?.data);
+        // console.log('Interceptor Error Response Data :', err?.response?.data);
         throw err;
     });
     
