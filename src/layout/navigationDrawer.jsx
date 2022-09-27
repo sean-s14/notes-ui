@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
     useMediaQuery,
@@ -10,13 +10,6 @@ import {
     Typography,
     Divider,
     IconButton,
-    Button,
-
-    // Dialog
-    Dialog,
-    DialogActions,
-    DialogContent,
-    TextField,
 
     // List
     List,
@@ -53,9 +46,6 @@ import {
     
     // Socials
     GitHub,
-    LinkedIn,
-    Telegram,
-    Twitter,
 } from '@mui/icons-material';
 import { useAuth, useAuthUpdate, ThemeContext } from 'contexts/exports';
 import { useVariables } from 'hooks/exports';
@@ -190,6 +180,7 @@ export default function NavigationDrawer2(props) {
 
     const auth = useAuth();
     const authUpdate = useAuthUpdate();
+    const navigate = useNavigate();
     const vars = useVariables()
     const mobile = useMediaQuery(`(min-width: ${vars.mobile})`)
 
@@ -198,10 +189,7 @@ export default function NavigationDrawer2(props) {
 
     
     const [open, setOpen] = useState(false);
-    const [subForm, setSubForm] = useState(false);
     
-    const handleSubscribeOpen = () => setSubForm(true);
-    const handleSubscribeClose = () => setSubForm(false);
     const handleDrawerOpen = () => setOpen(true);
     const handleDrawerClose = () => setOpen(false);
 
@@ -240,7 +228,10 @@ export default function NavigationDrawer2(props) {
             name: "Logout",
             path: "logout",
             icon: <Logout />,
-            func: () => authUpdate("clear")
+            func: () => { 
+                    authUpdate("clear");
+                    navigate("/", { replace: true });
+                }
             })
         : routes2.push({
             name: "Login",
@@ -274,24 +265,6 @@ export default function NavigationDrawer2(props) {
             path: "https://github.com/shaun-ps-04",
             externalPath: true,
             icon: <GitHub />
-        },
-        {
-            name: "LinkedIn",
-            path: "https://www.linkedin.com/in/sean-stocker-404149226",
-            externalPath: true,
-            icon: <LinkedIn />
-        },
-        {
-            name: "Telegram",
-            path: "https://t.me/shaunscodehaven",
-            externalPath: true,
-            icon: <Telegram />
-        },
-        {
-            name: "Twitter",
-            path: "policies",
-            externalPath: true,
-            icon: <Twitter />
         },
     ]
 
@@ -360,7 +333,6 @@ export default function NavigationDrawer2(props) {
 
                 { open &&
                     <>
-                        <Button sx={{mb: 2}} onClick={handleSubscribeOpen}>Subscribe</Button>
                         <footer 
                             style={{
                                 display: 'flex',
@@ -371,29 +343,12 @@ export default function NavigationDrawer2(props) {
                                 marginBottom: '20px',
                             }}
                             >
-                            Copyright &#169; {new Date().getFullYear()} ReactTemplate. All Rights Reserved
+                            Copyright &#169; {new Date().getFullYear()} Notes. All Rights Reserved
                         </footer>
                     </>
                 }
 
             </Drawer>
-
-
-            <Dialog open={subForm} onClose={handleSubscribeClose} sx={{width: '100vw'}} >
-                <DialogContent sx={{width: mobile ? '350px' : 'auto'}}>
-                    <TextField
-                        autoFocus
-                        id="name"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                    />
-                </DialogContent>
-                <DialogActions sx={{justifyContent: 'center'}}>
-                    <Button onClick={handleSubscribeClose}>Cancel</Button>
-                    <Button onClick={handleSubscribeClose}>Subscribe</Button>
-                </DialogActions>
-            </Dialog>
         </>
     );
 }
