@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import jwt_decode from "jwt-decode";
 
-
 // Custom
 import { useAuth } from 'contexts/exports';
+import { isObject } from 'utils/exports';
 
 
 const useAuthData = () => {
@@ -18,13 +18,15 @@ const useAuthData = () => {
     const [photo, setPhoto] = useState(null);
 
     const [loading, setLoading] = useState(true);
+    const [loggedIn, setLoggedIn] = useState(false);
 
     // useEffect( () => console.log("Access Token :", accessToken), [accessToken])
     // useEffect( () => console.log("Refresh Token :", refreshToken), [refreshToken])
 
     useEffect( () => {
+        // eslint-disable-next-line no-unused-vars
         let isMounted = true;
-        console.log("Use Auth Data has mounted...");
+        // console.log("Use Auth Data has mounted...");
         let accessToken = auth?.tokens?.access;
         let refreshToken = auth?.tokens?.refresh;
 
@@ -53,9 +55,21 @@ const useAuthData = () => {
     }, [auth])
 
     useEffect( () => {
-        accessToken !== null && 
-            refreshToken !== null && 
+        if (isObject(accessToken) && isObject(accessToken)) {
+            if ( 
+                (Object.keys(accessToken).length > 0) &&
+                (Object.keys(refreshToken).length > 0)
+            ) {
+                setLoggedIn(true);
+                setLoading(false);
+            } else {
+                setLoggedIn(false);
+                setLoading(false);
+            }
+        } else if ( (accessToken !== null) && (refreshToken !== null) ) {
+            setLoggedIn(false);
             setLoading(false);
+        }
     }, [accessToken, refreshToken]);
 
     // useEffect( () => {
@@ -67,6 +81,7 @@ const useAuthData = () => {
 
     return {
         isLoading: loading,
+        isLoggedIn: loggedIn,
         tokens: accessToken && refreshToken && {
             access: accessToken,
             refresh: refreshToken,

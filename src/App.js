@@ -24,26 +24,19 @@ import {
   PasswordResetPage,
 } from 'pages/exports';
 import NavigationDrawer from 'layout/navigationDrawer';
-import { useAuth } from 'contexts/exports';
-import { useEffect, useState } from 'react';
+import { useAuthData } from 'hooks/exports';
+// import { useEffect } from 'react';
 import LoadingScreen from 'LoadingScreen';
 
 
 export default function App() {
   
-  const auth = useAuth();
-  const [loggedIn, setLoggedIn] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { isLoading, isLoggedIn } = useAuthData();
+  
+  // useEffect( () => console.log("Logged In:", isLoggedIn), [isLoggedIn]);
+  // useEffect( () => console.log("isLoading:", isLoading), [isLoading]);
 
-  useEffect( () => {
-    console.log("Auth:", auth);
-    console.log("Logged In:", !!auth?.tokens?.access);
-    setLoggedIn(!!auth?.tokens?.access);
-  }, [auth])
-
-  useEffect( () => setLoading(false), []);
-
-  if (loading === true || loggedIn === null) return <LoadingScreen />;
+  if (isLoading) return <LoadingScreen />;
 
   return (
     <>
@@ -62,17 +55,17 @@ export default function App() {
           <Route path=":slug" element={<NoteDetailPage />}/>
         </Route>
 
-        { !loggedIn
+        { isLoggedIn
           ? <>
+              <Route path="settings" element={<SettingsPage />}/>
+              <Route path="password-change" element={<PasswordChangePage />}/>
+            </>
+          :
+            <>
               <Route path="login" element={<LoginPage />}/>
               <Route path="signup" element={<SignupPage />}/>
               <Route path="verify" element={<VerificationPage />}/>
               <Route path="password-reset" element={<PasswordResetPage />}/>
-            </>
-          :
-            <>
-              <Route path="settings" element={<SettingsPage />}/>
-              <Route path="password-change" element={<PasswordChangePage />}/>
             </>
         }
         <Route path="*" element={<Navigate to="/" replace /> }/>
