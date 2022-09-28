@@ -1,7 +1,10 @@
 
 import logo512 from 'static/images/logo512.png';
+import { useTheme } from '@mui/material/styles';
 
 const LoadingScreen = (props) => {
+
+    const theme = useTheme();
 
     return (
         <div
@@ -10,6 +13,7 @@ const LoadingScreen = (props) => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: '100vh',
+                backgroundColor: theme.palette.mode === 'dark' ? 'rgb(10, 7, 18)' : '#E7DFDD',
             }}
         >
             <img 

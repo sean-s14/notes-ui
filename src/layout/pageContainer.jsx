@@ -2,8 +2,8 @@
 // import { useEffect } from 'react';
 import { Box, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { useVariables, useAuthData } from 'hooks/exports';
-import LoadingScreen from 'LoadingScreen';
+import { useVariables } from 'hooks/exports';
+// import LoadingScreen from 'LoadingScreen';
 
 
 const PageContainer = ({children, style}) => {
@@ -11,11 +11,11 @@ const PageContainer = ({children, style}) => {
     const theme = useTheme();
     const vars = useVariables();
     const mobile = useMediaQuery(`(min-width: ${vars.mobile})`)
-    const { isLoading } = useAuthData();
+    // const { isLoading } = useAuthData();
 
     // useEffect( () => console.log("Variables:", Variables()), []);
 
-    if (isLoading) return <LoadingScreen />;
+    // if (isLoading) return <LoadingScreen />;
 
     return (
         <Box
