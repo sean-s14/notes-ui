@@ -118,7 +118,7 @@ const stylesheet = (theme) => ({
     },
     Title: {
         color: theme.palette.primary.light,
-        width: '390px',
+        width: '100%',
         maxWidth: '100%',
         '& .MuiInputBase-root' : {
             borderRadius: 2
@@ -127,7 +127,7 @@ const stylesheet = (theme) => ({
     QuillEditor: {
         marginTop: '20px',
         marginBottom: '20px',
-        width: '400px',
+        width: '100%',
         maxWidth: '100%',
     },
     SaveBtn: {

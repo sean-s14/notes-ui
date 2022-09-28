@@ -1,6 +1,6 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import {
     useMediaQuery,
@@ -51,10 +51,13 @@ import { useAuth, useAuthUpdate, ThemeContext } from 'contexts/exports';
 import { useVariables } from 'hooks/exports';
 
 
+const boxShadow = '2px 0px 8px 6px rgba(126, 87, 194, 0.2)';
+
 const openedMixin = (theme, vars) => ({
-    // backgroundColor:  theme.palette.mode === 'dark' && '#333',
-    backgroundColor:  theme.palette.background.paper,
-    // backgroundColor:  theme.palette.mode === 'dark' && '#333',
+    boxShadow: boxShadow,
+    borderColor: 'rgba(0,0,0,0)',
+    backgroundColor: theme.palette.mode === 'dark' ? 'rgb(10, 7, 18)' : '#E7DFDD',
+    // backgroundColor:  theme.palette.background.paper,
     width: vars.drawerWidth,
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
@@ -64,9 +67,10 @@ const openedMixin = (theme, vars) => ({
 });
 
 const closedMixin = (theme, vars) => ({
-    // backgroundColor:  theme.palette.mode === 'dark' && '#311b92',
-    backgroundColor:  theme.palette.background.paper,
-    // backgroundColor:  theme.palette.mode === 'dark' && '#333',
+    boxShadow: boxShadow,
+    borderColor: 'rgba(0,0,0,0)',
+    backgroundColor: theme.palette.mode === 'dark' ? 'rgb(10, 7, 18)' : '#E7DFDD',
+    // backgroundColor: theme.palette.primary.dark,
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -181,17 +185,18 @@ export default function NavigationDrawer2(props) {
     const auth = useAuth();
     const authUpdate = useAuthUpdate();
     const navigate = useNavigate();
+    const location = useLocation();
     const vars = useVariables()
     const mobile = useMediaQuery(`(min-width: ${vars.mobile})`)
 
     const theme = useTheme();
     const themeMode = useContext(ThemeContext);
-
     
     const [open, setOpen] = useState(false);
-    
     const handleDrawerOpen = () => setOpen(true);
     const handleDrawerClose = () => setOpen(false);
+
+    useEffect( () => { handleDrawerClose() }, [location]);
 
     const routes1 = [
         {

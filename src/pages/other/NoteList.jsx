@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Clear, Add } from '@mui/icons-material';
 import {
-    List,
     ListItemText,
     ListItemButton,
     IconButton,
@@ -18,7 +17,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { PageContainer } from "layout/pageContainer";
 import { useAxios, useAuthData } from 'hooks/exports';
 import { convertDate } from 'utils/exports';
-
+import { CList } from 'components/exports';
 
 const NoteListPage = () => {
 
@@ -96,7 +95,7 @@ const NoteListPage = () => {
         <PageContainer style={styles.PageContainer}>
             <h1>All Notes</h1>
 
-            <List dense={false} sx={styles.ListContainer}>
+            <CList dense={false}>
                 <ListItemButton 
                     sx={{
                         ...styles.ListItemBtn, 
@@ -139,7 +138,7 @@ const NoteListPage = () => {
                         </IconButton>
                     </ListItemButton>
                 )) }
-            </List>
+            </CList>
             
             
             <Dialog
@@ -178,14 +177,6 @@ const stylesheet = (theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-    },
-    ListContainer: {
-        // border: '1px solid red',
-        minWidth: '300px',
-        width: '500px',
-        maxWidth: '90%',
-        borderRadius: 2,
-        bgcolor: theme.palette.background.paper
     },
     ListItemBtn: {
         display: 'flex',

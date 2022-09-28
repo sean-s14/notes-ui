@@ -9,7 +9,6 @@ import {
     Dialog,
     DialogActions,
     DialogTitle,
-    IconButton,
 } from '@mui/material';
 
 import { useParams, useNavigate } from "react-router-dom";

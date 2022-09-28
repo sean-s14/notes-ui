@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Clear, Edit, Add } from '@mui/icons-material';
 import {
-    List,
     ListItem,
     ListItemText,
     ListItemButton,
@@ -15,6 +14,7 @@ import parse from 'html-react-parser';
 
 import { PageContainer } from "layout/pageContainer";
 import { useAxios, useAuthData } from 'hooks/exports';
+import { CList } from 'components/exports';
 
 
 const TasksPage = (props) => {
@@ -195,7 +195,7 @@ const TasksPage = (props) => {
                 let localTasks = JSON.parse(localTasksRaw);
                 localTasks.sort( (a, b) => a.id > b.id ? -1 : 1 );
                 localTasks.push({...newTask, id: localTasks[0].id + 1, completed: false});
-                localTasks.sort( (a, b) => a.id > b.id ? -1 : 1 );
+                localTasks.sort( (a, b) => a.id < b.id ? -1 : 1 );
                 localStorage.setItem('tasks', JSON.stringify(localTasks));
             }
             getTasks();
@@ -219,14 +219,14 @@ const TasksPage = (props) => {
         <PageContainer style={styles.PageContainer}>
             <h1>Tasks</h1>
 
-            <List dense={false} sx={styles.ListContainer}>
+            <CList dense={false}>
 
                 <ListItem>
                     <TextField
                         placeholder='"get milk"'
                         value={ newTask.text || '' }
                         onChange={ e => setNewTask( val => ({...val, text: e.target.value}) ) }
-                        onKeyDown={ (e) => e.keyCode === 13 && addTask() }
+                        onKeyDown={ (e) => e.key === 'Enter' && addTask() }
                         sx={{
                             width: '90%',
                             p: 1,
@@ -285,7 +285,7 @@ const TasksPage = (props) => {
                         </IconButton>
                     </ListItemButton>
                 )) }
-            </List>
+            </CList>
         </PageContainer>
     )
 }
@@ -295,16 +295,6 @@ const stylesheet = (theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-    },
-    ListContainer: {
-        // display: 'flex',
-        // flexDirection: 'column',
-        mt: 3,
-        minWidth: '300px',
-        width: '500px',
-        maxWidth: '90%',
-        borderRadius: 2,
-        bgcolor: theme.palette.background.paper
     },
     ListItemBtn: {
         display: 'flex',
