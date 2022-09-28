@@ -120,15 +120,19 @@ const stylesheet = (theme) => ({
         color: theme.palette.primary.light,
         width: '100%',
         maxWidth: '100%',
+        boxShadow:  "0px 0px 8px 4px rgba(126, 87, 194, 0.4)",
+        borderRadius: 2,
         '& .MuiInputBase-root' : {
-            borderRadius: 2
+            borderRadius: 2,
         }
     },
     QuillEditor: {
+        borderRadius: '10px',
         marginTop: '20px',
         marginBottom: '20px',
         width: '100%',
         maxWidth: '100%',
+        boxShadow:  "0px 0px 8px 4px rgba(126, 87, 194, 0.4)",
     },
     SaveBtn: {
         color: theme.palette.primary.light,

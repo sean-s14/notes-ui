@@ -88,9 +88,9 @@ const ContactPage = (props) => {
                 direction="column"
                 sx={{
                     width: '18rem',
-                    '& > *': {
+                    '& > div, & > button': {
                         width: '100%',
-                        color: theme.palette.mode === 'dark' && theme.palette.primary.light,
+                        color: theme.palette.primary.contrastText,
                         fontSize: '1rem',
                         '& > input': {
                             fontSize: '1.3rem',
@@ -148,7 +148,6 @@ const ContactPage = (props) => {
                 />
                 <Button 
                     variant="contained" 
-                    sx={{}}
                     onClick={ sendMsg }
                 >
                     Send
