@@ -17,7 +17,7 @@ import ReactQuill from 'react-quill';
 import 'static/css/quill.snow.css';
 
 import { PageContainer } from "layout/pageContainer";
-import { useAxios } from 'hooks/exports';
+import { useAxios, useAuthData } from 'hooks/exports';
 // import { useAuthUpdate } from 'contexts/exports';
 
 
@@ -32,6 +32,7 @@ const NoteDetailPage = (props) => {
     const api = useAxios();
     let { slug } = useParams();
     const navigate = useNavigate();
+    const { isLoggedIn } = useAuthData();
 
     const [form, setForm] = useState({});
     const [note, setNote] = useState({});
@@ -49,20 +50,49 @@ const NoteDetailPage = (props) => {
         ],
     }
 
-    useEffect( () => {
-        console.log("Form:", form);
+    const editNote = () => {
         if ( Object.keys(form).length === 0 ) return;
+
+        let localNotesRaw = localStorage.getItem('notes');
+        
+        if (!isLoggedIn) {
+            if (localNotesRaw !== null) {
+                let localNotes = JSON.parse(localNotesRaw);
+                localNotes = localNotes.map( note => {
+                    if (note.slug === slug) {
+                        note.title = form.title;
+                        note.text = form.text;
+                    } 
+                    return note
+                });
+                localStorage.setItem('notes', JSON.stringify(localNotes));
+                // setNotes(localNotes);
+            }
+            return
+        }
+
         api.patch(`notes/edit/${slug}/`, form)
-            .then( res => {
+            .then( res => {})
+            .catch( err => {})
+    }
 
-            })
-            .catch( err => {
-
-            })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [form])
+    useEffect( () => editNote, [form]);
 
-    useEffect( () => {
+    const getNote = () => {
+        let localNotesRaw = localStorage.getItem('notes');
+        
+        if (!isLoggedIn) {
+            if (localNotesRaw !== null) {
+                let localNotes = JSON.parse(localNotesRaw);
+                let localNote = localNotes.filter( note => note.slug === slug )[0];
+                setNote(localNote);
+                setForm(localNote);
+                // setNotes(localNotes);
+            }
+            return
+        }
+
         api.get(`notes/${slug}`)
             .then( res => {
                 setNote(res?.data);
@@ -70,17 +100,38 @@ const NoteDetailPage = (props) => {
             .catch( err => {
 
             })
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    useEffect( () => getNote, []);
 
     const deleteNote = () => {
+        let localNotesRaw = localStorage.getItem('notes');
+        
+        if (!isLoggedIn) {
+            if (localNotesRaw !== null) {
+                let localNotes = JSON.parse(localNotesRaw);
+                localNotes = localNotes.filter( localNote => localNote.slug !== note.slug );
+                
+                if (localNotes.length === 0) {
+                    localStorage.removeItem('notes');
+                    setNote({});
+                    setForm({});
+                } else {
+                    localStorage.setItem('notes', JSON.stringify(localNotes));
+                    setNote(localNotes);
+                }
+            }
+            navigate("/notes", { replace: true });
+            handleDelClose();
+            return
+        }
+
         api.delete(`notes/delete/${note.slug}/`)
             .then( res => {
                 navigate("/notes", { replace: true });
             })
-            .catch( err => {
-
-            });
+            .catch( err => {});
         handleDelClose()
     };
 
@@ -89,17 +140,19 @@ const NoteDetailPage = (props) => {
             
             <FormControl sx={styles.Form}>
 
-                <IconButton 
+                <Button 
                     onClick={ handleDelOpen }
-                    sx={{ml: 'auto'}}
+                    variant="contained"
+                    sx={{ml: 'auto', mb: 4}}
+                    endIcon={<Delete sx={{color: theme.palette.primary.dark}} />}
                 >
-                    <Delete sx={{color: theme.palette.error.main}} />
-                </IconButton>
+                    Delete
+                </Button>
 
                 <TextField
                     id="standard-basic" 
                     label="Title" 
-                    variant="standard"
+                    // variant="standard"
                     sx={styles.Title}    
                     value={form.title || note.title || ''}
                     onChange={(e) => setForm({...form, title: e.target.value})}
@@ -154,19 +207,28 @@ const stylesheet = (theme) => ({
         alignItems: 'center',
     },
     Form: {
-        mt: 6,
+        mt: 3,
+        minWidth: '300px',
+        width: '500px',
+        maxWidth: '90%',
     },
     Title: {
         color: theme.palette.primary.light,
-        width: '390px'
+        width: '390px',
+        maxWidth: '100%',
+        '& .MuiInputBase-root' : {
+            borderRadius: 2
+        }
     },
     QuillEditor: {
         marginTop: '20px',
         marginBottom: '20px',
         width: '400px',
+        maxWidth: '100%',
     },
     SaveBtn: {
-        color: theme.palette.primary.light
+        color: theme.palette.primary.light,
+        borderRadius: 2
     },
     Dialog: {
         '& .MuiPaper-root': {

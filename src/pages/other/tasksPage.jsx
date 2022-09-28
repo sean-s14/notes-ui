@@ -46,7 +46,7 @@ const TasksPage = (props) => {
                 localStorage.setItem('tasks', JSON.stringify(localTasks));
                 getTasks();
             }
-            return
+            return 1
         }
 
         api.patch(`tasks/edit/${id}/`, {completed: completed})
@@ -81,7 +81,7 @@ const TasksPage = (props) => {
                 getTasks();
             }
 
-            return
+            return 1
         }
 
         setTasks( tasks => tasks.map( (task) => {
@@ -108,7 +108,7 @@ const TasksPage = (props) => {
                 localStorage.setItem('tasks', JSON.stringify(localTasks));
             }
 
-            return
+            return 1
         }
 
         api.patch(`tasks/edit/${id}/`, {text: text})
@@ -137,7 +137,7 @@ const TasksPage = (props) => {
                 } 
             }
             getTasks();
-            return
+            return 1
         }
 
         api.delete(`tasks/delete/${id}/`)
@@ -150,18 +150,17 @@ const TasksPage = (props) => {
     }
 
     const getTasks = () => {
+        
+        let localTasksRaw = localStorage.getItem('tasks');
 
         if (!isLoggedIn) {
-            let localTasksRaw = localStorage.getItem('tasks');
             if (localTasksRaw !== null) {
                 let localTasks = JSON.parse(localTasksRaw);
                 setTasks(localTasks.reverse());
             }
-            return
+            return 1
         }
         
-        let localTasksRaw = localStorage.getItem('tasks');
-
         if (localTasksRaw !== null) {
             let localTasks = JSON.parse(localTasksRaw);
             if (localTasks.length > 0) {
@@ -213,10 +212,8 @@ const TasksPage = (props) => {
             })
     }
 
-    useEffect( () => {
-        getTasks()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLoggedIn]);
+    useEffect( () => { getTasks() }, [isLoggedIn]);
 
     return (
         <PageContainer style={styles.PageContainer}>
@@ -225,9 +222,11 @@ const TasksPage = (props) => {
             <List dense={false} sx={styles.ListContainer}>
 
                 <ListItem>
-                    <TextField 
+                    <TextField
+                        placeholder='"get milk"'
                         value={ newTask.text || '' }
                         onChange={ e => setNewTask( val => ({...val, text: e.target.value}) ) }
+                        onKeyDown={ (e) => e.keyCode === 13 && addTask() }
                         sx={{
                             width: '90%',
                             p: 1,
@@ -298,10 +297,12 @@ const stylesheet = (theme) => ({
         alignItems: 'center',
     },
     ListContainer: {
+        // display: 'flex',
+        // flexDirection: 'column',
         mt: 3,
         minWidth: '300px',
         width: '500px',
-        maxWidth: '500px',
+        maxWidth: '90%',
         borderRadius: 2,
         bgcolor: theme.palette.background.paper
     },

@@ -12,8 +12,8 @@ import ReactQuill from 'react-quill';
 import 'static/css/quill.snow.css';
 
 import { PageContainer } from "layout/pageContainer";
-import { useAxios } from 'hooks/exports';
-// import { useAuthUpdate } from 'contexts/exports';
+import { useAxios, useAuthData } from 'hooks/exports';
+import { slugify } from 'utils/exports';
 
 
 const CreateNotePage = (props) => {
@@ -23,8 +23,8 @@ const CreateNotePage = (props) => {
 	const styles = stylesheet(theme);
 
     // Auth
-    // const updateAuthData = useAuthUpdate();
     const api = useAxios();
+    const { isLoggedIn } = useAuthData();
     const navigate = useNavigate();
 
     const [form, setForm] = useState({});
@@ -43,6 +43,22 @@ const CreateNotePage = (props) => {
     }, [form])
 
     const save = () => {
+
+        if (!isLoggedIn) {
+            let localNotesRaw = localStorage.getItem('notes');
+            if (localNotesRaw === null) {
+                localStorage.setItem('notes', JSON.stringify([{...form, id: 1, slug: slugify(form.title)}]));
+            } else {
+                let localNotes = JSON.parse(localNotesRaw);
+                localNotes.sort( (a, b) => a.id > b.id ? -1 : 1 );
+                localNotes.push({...form, id: localNotes[0].id + 1, slug: slugify(form.title)});
+                localNotes.sort( (a, b) => a.id > b.id ? -1 : 1 );
+                localStorage.setItem('notes', JSON.stringify(localNotes));
+            }
+            navigate("/notes", { replace: true });
+            return
+        }
+
         api.post('notes/create/', form)
             .then( res => {
                 navigate("/notes", { replace: true });
@@ -60,7 +76,7 @@ const CreateNotePage = (props) => {
                 <TextField
                     id="standard-basic" 
                     label="Title" 
-                    variant="standard"
+                    // variant="standard"
                     sx={styles.Title}    
                     value={form.title || ''}
                     onChange={(e) => setForm({...form, title: e.target.value})}
@@ -96,18 +112,27 @@ const stylesheet = (theme) => ({
     },
     Form: {
         mt: 5,
+        minWidth: '300px',
+        width: '500px',
+        maxWidth: '90%',
     },
     Title: {
         color: theme.palette.primary.light,
-        width: '390px'
+        width: '390px',
+        maxWidth: '100%',
+        '& .MuiInputBase-root' : {
+            borderRadius: 2
+        }
     },
     QuillEditor: {
         marginTop: '20px',
         marginBottom: '20px',
         width: '400px',
+        maxWidth: '100%',
     },
     SaveBtn: {
-        color: theme.palette.primary.light
+        color: theme.palette.primary.light,
+        borderRadius: 2
     }
 })
 
