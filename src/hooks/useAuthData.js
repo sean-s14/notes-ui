@@ -4,11 +4,13 @@ import jwt_decode from "jwt-decode";
 // Custom
 import { useAuth } from 'contexts/exports';
 import { isObject } from 'utils/exports';
+import useAxios from './useAxios';
 
 
 const useAuthData = () => {
 
     const auth = useAuth();
+    const api = useAxios();
 
     const [accessToken, setAccessToken] = useState(null);
     const [refreshToken, setRefreshToken] = useState(null);
@@ -72,11 +74,43 @@ const useAuthData = () => {
         }
     }, [accessToken, refreshToken]);
 
-    // useEffect( () => {
-    //     if (loading) return;
-    //     console.log("email :", email);
-    //     console.log("username :", username);
-    // }, [loading])
+    const syncData = () => {
+        if (!loggedIn) return;
+        
+        let tasksRaw = localStorage.getItem('tasks')
+        if (tasksRaw !== null) {
+            let tasks = JSON.parse(tasksRaw);
+            if (tasks.length > 0) {
+                tasks.sort( (a, b) => a.id > b.id ? -1 : 1 );
+                let newlocalTasks = tasks.map( task => ({text: task.text, completed: task.completed}) );
+                newlocalTasks.forEach( task => {
+                    api.post('tasks/create/', task)
+                        .then( res => {})
+                        .catch( err => {})
+                });
+                localStorage.removeItem('tasks');
+            }
+        }
+
+        let notesRaw = localStorage.getItem('notes')
+        if (notesRaw !== null) {
+            let notes = JSON.parse(notesRaw);
+            if (notes.length > 0) {
+                notes.sort( (a, b) => a.id > b.id ? -1 : 1 );
+                let newNotes = notes.map( note => ({title: note.title, slug: note.slug, text: note.text}) );
+                newNotes.forEach( note => {
+                    api.post('notes/create/', note)
+                        .then( res => {})
+                        .catch( err => {})
+                });
+                localStorage.removeItem('notes');
+            }
+        }
+
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect( () => syncData, [loggedIn]);
 
 
     return {

@@ -78,7 +78,7 @@ const ContactPage = (props) => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center',
+                // justifyContent: 'center',
             }}
         >
             <h1>Contact Me</h1>
