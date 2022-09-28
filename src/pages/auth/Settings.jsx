@@ -5,7 +5,6 @@ import {
     Badge,
     Divider,
     Box,
-    Stack,
     Button,
     TextField,
     IconButton,
@@ -19,6 +18,7 @@ import { useAxios, useAuthData } from 'hooks/exports';
 import { useAuthUpdate } from 'contexts/exports';
 import DefaultUser from 'static/images/default-user.jpg';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import { CStack } from 'components/exports';
 
 
 const SettingsPage = (props) => {
@@ -102,7 +102,7 @@ const SettingsPage = (props) => {
     return (
         <PageContainer style={styles.PageContainer}>
             
-            <Stack 
+            <CStack 
                 spacing={3} 
                 direction="column"
                 sx={styles.StackStyle}
@@ -204,7 +204,7 @@ const SettingsPage = (props) => {
                 <Button variant="contained">
                     <Link to="/password-change">Change Password</Link>
                 </Button>
-            </Stack>
+            </CStack>
             
         </PageContainer>
     )
@@ -218,20 +218,6 @@ const stylesheet = (theme) => ({
     },
     StackStyle: {
         alignItems: 'center',
-        width: '18rem',
-        '& > *': {
-            width: '100%',
-            color: theme.palette.mode === 'dark' && theme.palette.primary.light,
-            fontSize: '1rem',
-            '& > input': {
-                fontSize: '1.3rem',
-            },
-            '& > a': {
-                color: 'inherit',
-                fontSize: 'inherit',
-                textDecoration: 'none',
-            }
-        },
     },
 })
 

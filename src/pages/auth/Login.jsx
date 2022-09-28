@@ -5,7 +5,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { 
     Box,
     Divider,
-    Stack,
     Button,
     TextField,
 } from '@mui/material';
@@ -13,6 +12,7 @@ import {
 import { PageContainer } from "layout/pageContainer";
 import { useAxios } from 'hooks/exports';
 import { useAuthUpdate } from 'contexts/exports';
+import { CStack } from 'components/exports';
 
 
 const LoginPage = (props) => {
@@ -89,10 +89,9 @@ const LoginPage = (props) => {
         <PageContainer style={styles.PageContainer}>
             <h1>Login</h1>
             
-            <Stack 
+            <CStack 
                 spacing={2} 
                 direction="column"
-                sx={styles.StackStyle}
             >
                 {   
                     Object.keys(errors).filter( (key) => 
@@ -139,7 +138,7 @@ const LoginPage = (props) => {
                 <Button variant="contained">
                     <Link to="/password-reset">Forgot Your Password?</Link>
                 </Button>
-            </Stack>
+            </CStack>
         </PageContainer>
     )
 }
@@ -149,22 +148,6 @@ const stylesheet = (theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-    },
-    StackStyle: {
-        width: '18rem',
-        '& > *': {
-            width: '100%',
-            color: theme.palette.mode === 'dark' && theme.palette.primary.light,
-            fontSize: '1rem',
-            '& > input': {
-                fontSize: '1.3rem',
-            },
-            '& > a': {
-                color: 'inherit',
-                fontSize: 'inherit',
-                textDecoration: 'none',
-            },
-        },
     },
 })
 
