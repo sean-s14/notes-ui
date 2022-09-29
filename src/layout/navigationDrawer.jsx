@@ -24,7 +24,7 @@ import MuiAppBar from '@mui/material/AppBar';
 // Icons
 import {
     Home,
-    QuestionMark,
+    // QuestionMark,
     Feed,
     // Article,
     List as ListIcon,
@@ -250,11 +250,11 @@ export default function NavigationDrawer2(props) {
             })
 
     const routes3 = [
-        {
-            name: "About",
-            path: "about",
-            icon: <QuestionMark />
-        },
+        // {
+        //     name: "About",
+        //     path: "about",
+        //     icon: <QuestionMark />
+        // },
         {
             name: "Policies",
             path: "policies",
@@ -267,7 +267,7 @@ export default function NavigationDrawer2(props) {
         },
         {
             name: "Github",
-            path: "https://github.com/shaun-ps-04",
+            path: "https://github.com/shaun-ps-04/notes-ui",
             externalPath: true,
             icon: <GitHub />
         },

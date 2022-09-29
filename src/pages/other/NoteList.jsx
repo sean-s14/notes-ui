@@ -104,7 +104,7 @@ const NoteListPage = () => {
                     }}
                     onClick={ () => navigate('/notes/create', { replace: true }) }
                 >
-                    Create Note
+                    Add Note
                     <Add fontSize={'large'} sx={{...styles.ClearStyle, ml: 2}}/>
                 </ListItemButton>
 
