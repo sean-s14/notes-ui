@@ -92,7 +92,7 @@ const HomePage = (props) => {
                 variant="h5"
                 sx={styles.GridItemText}
             >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus quasi beatae aspernatur culpa magni ab.
+                Capture what's on your mind by taking notes
             </Typography>
         </Grid>
     ]
@@ -121,7 +121,7 @@ const HomePage = (props) => {
                         variant="h5"
                         sx={styles.GridItemText}
                     >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus quasi beatae aspernatur culpa magni ab.
+                        Remind yourself of important activities by creating tasks
                     </Typography>
                 </Grid>
 
@@ -198,7 +198,7 @@ const stylesheet = (theme) => ({
     },
     GridItemText: {
         minWidth: '18rem',
-        maxWidth: '26rem',
+        maxWidth: '24rem',
         textAlign: 'center',
         // padding: '24px',
     },
