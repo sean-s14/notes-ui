@@ -261,7 +261,7 @@ const TasksPage = (props) => {
                             ?   <TextField
                                     defaultValue={text}
                                     onChange={ (text) => updateTask(text.target.value, id) }
-                                    sx={{minWidth: '200px', width: '350px', maxWidth: '400px'}}
+                                    sx={styles.EditableField}
                                 />
                             :   <ListItemText 
                                     primary={ completed ? parse(text.strike()) : text }
@@ -300,9 +300,14 @@ const stylesheet = (theme) => ({
         display: 'flex',
         justifyContent: 'space-between'
     },
+    EditableField: {
+        minWidth: '120px',
+        width: '350px',
+        maxWidth: '400px',
+    },
     Checkbox: {
         ml: 0, 
-        mr: 2, 
+        mr: 1, 
         borderRadius: 2, 
         '&:hover': {
             bgcolor: "rgba(94, 53, 177, 0.2)",
